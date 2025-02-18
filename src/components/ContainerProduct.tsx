@@ -27,7 +27,7 @@ function getColumnStart(
 		if (alignment === "right") {
 			return index === 0 ? 2 : 3;
 		}
-		return index === 0 ? 1 : 3;
+		return index + 1;
 	}
 	return index + 1;
 }
@@ -40,6 +40,8 @@ const ContainerProduct: React.FC<NewTestProps> = ({
 }) => {
 	const row = rows.find((r) => r.rowId === rowId);
 	const products = row ? row.products : [];
+	const currentAlignment =
+		products.length > 0 ? products[0].alignment || "center" : "center";
 
 	const handleAddProduct = () => {
 		if (products.length < 3) {
@@ -125,7 +127,7 @@ const ContainerProduct: React.FC<NewTestProps> = ({
 						return (
 							<div
 								key={product.id}
-								className={`col-span-1 col-start-${colStart} mt-10`}
+								className={`col-span-1 col-start-${colStart} mt-10 max-w`}
 							>
 								<ItemProduct
 									user={product}
@@ -149,39 +151,40 @@ const ContainerProduct: React.FC<NewTestProps> = ({
 					<div className="flex justify-center mt-4 space-x-4">
 						<button
 							onClick={() => handleAlignmentChange("left")}
-							className="px-4 py-2 
-									border border-black 
-									rounded-2xl
-									bg-white text-black 
-									hover:bg-black hover:text-white 
-									transition-colors duration-200"
+							className={`px-4 py-2 border border-black rounded-2xl transition-colors duration-200 ${
+								currentAlignment === "left"
+									? "bg-black text-white"
+									: "bg-white text-black hover:bg-black hover:text-white"
+							}`}
 						>
 							Izquierda
 						</button>
 						<button
+							disabled={products.length === 2}
 							onClick={() => handleAlignmentChange("center")}
-							className="px-4 py-2 
-									border border-black 
-									rounded-full
-									bg-white text-black 
-									hover:bg-black hover:text-white 
-									transition-colors duration-200"
+							className={`px-4 py-2 border border-black rounded-full transition-colors duration-200 ${
+								products.length === 2
+									? "bg-gray-300 text-gray-600 cursor-not-allowed"
+									: currentAlignment === "center"
+										? "bg-black text-white"
+										: "bg-white text-black hover:bg-black hover:text-white"
+							}`}
 						>
 							Centro
 						</button>
 						<button
 							onClick={() => handleAlignmentChange("right")}
-							className="px-4 py-2 
-									border border-black 
-									rounded-full 
-									bg-white text-black 
-									hover:bg-black hover:text-white 
-									transition-colors duration-200"
+							className={`px-4 py-2 border border-black rounded-full transition-colors duration-200 ${
+								currentAlignment === "right"
+									? "bg-black text-white"
+									: "bg-white text-black hover:bg-black hover:text-white"
+							}`}
 						>
 							Derecha
 						</button>
 					</div>
 				)}
+
 				<button
 					onClick={handleAddProduct}
 					className="mt-6 px-6 py-2 border border-black 
