@@ -1,4 +1,4 @@
-# Marvel WebApp
+# Inditex WebApp
 
 This project has been created with `"next": "15.1.6"` and `"react":  "^19.0.0"`.
 
@@ -36,11 +36,9 @@ The drag-and-drop library we have used is `@dnd-kit`. More info: `https://dndkit
         - `src/pages/index.tsx` is the main entry point of the application.
     - `src/data`: contains the local data products to show in the applicacion
 
-    The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
-
 ### Best practices
 
-This project uses `eslint`, `prettier` and `commitlint` to ensure good practices when programming and adding changes to the code.
+This project uses `eslint`and `prettier` to ensure good practices when programming and adding changes to the code.
 
 It is automatically configured after running the `npm install` script.
 
