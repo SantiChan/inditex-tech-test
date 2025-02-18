@@ -159,7 +159,6 @@ const Editor: React.FC = () => {
 
 	return (
 		<div className="pl-40 pr-40 relative">
-			{/* Header fijo: botones de Añadir Fila y Zoom */}
 			<div className="fixed top-0 left-0 right-0 z-50 bg-white shadow p-4 flex justify-center space-x-4">
 				<button
 					onClick={handleAddRow}

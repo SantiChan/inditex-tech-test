@@ -27,7 +27,6 @@ function getColumnStart(
 		if (alignment === "right") {
 			return index === 0 ? 2 : 3;
 		}
-		return index + 1;
 	}
 	return index + 1;
 }
@@ -117,29 +116,69 @@ const ContainerProduct: React.FC<NewTestProps> = ({
 			<div className="w-full">
 				<div className="grid grid-cols-3 gap-14 w-full">
 					{products.map((product, index) => {
-						const alignment = product.alignment || "center";
+						if (
+							products.length === 2 &&
+							currentAlignment === "center"
+						) {
+							if (index === 0) {
+								return (
+									<div
+										key="special-center-container"
+										className="col-span-3 col-start-1 flex justify-center gap-8 relative"
+									>
+										{products.map((prod, idx) => (
+											<div
+												key={prod.id}
+												className="relative w-[350px]"
+											>
+												<ItemProduct
+													user={prod}
+													rowId={rowId}
+													index={idx}
+													alignment={
+														prod.alignment || "left"
+													}
+												/>
+												<button
+													onClick={() =>
+														handleRemoveProduct(
+															prod.id,
+														)
+													}
+													className="absolute top-2 right-2 bg-red-600 text-white text-xs px-2 py-1 rounded"
+												>
+													X
+												</button>
+											</div>
+										))}
+									</div>
+								);
+							} else {
+								return null;
+							}
+						}
 						const colStart = getColumnStart(
 							index,
 							products.length,
-							alignment,
+							product.alignment || "left",
 						);
 
 						return (
 							<div
 								key={product.id}
-								className={`col-span-1 col-start-${colStart} mt-10 max-w`}
+								className={`col-span-1 col-start-${colStart} relative`}
 							>
 								<ItemProduct
 									user={product}
 									rowId={rowId}
 									index={index}
-									alignment={alignment}
+									alignment={product.alignment || "left"}
 								/>
 								<button
 									onClick={() =>
 										handleRemoveProduct(product.id)
 									}
-									className="top-2 right-2 bg-red-600 text-white text-xs px-2 py-1 rounded"
+									className="absolute top-2 right-2 bg-red-600 text-white text-xs px-2 py-1 rounded"
 								>
 									X
 								</button>
@@ -160,14 +199,11 @@ const ContainerProduct: React.FC<NewTestProps> = ({
 							Izquierda
 						</button>
 						<button
-							disabled={products.length === 2}
 							onClick={() => handleAlignmentChange("center")}
 							className={`px-4 py-2 border border-black rounded-full transition-colors duration-200 ${
-								products.length === 2
-									? "bg-gray-300 text-gray-600 cursor-not-allowed"
-									: currentAlignment === "center"
-										? "bg-black text-white"
-										: "bg-white text-black hover:bg-black hover:text-white"
+								currentAlignment === "center"
+									? "bg-black text-white"
+									: "bg-white text-black hover:bg-black hover:text-white"
 							}`}
 						>
 							Centro
